@@ -69,6 +69,16 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingFound()
     {
+
+        switch (mTrackableBehaviour.TrackableName)
+        {
+            case "law":
+                GameObject.Find("sceneControl").GetComponent<mainController>().setTracking(true, "Museum");
+                break;
+            default:
+                break;
+        }
+
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);
@@ -89,6 +99,16 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingLost()
     {
+        switch (mTrackableBehaviour.TrackableName)
+        {
+
+            case "law":
+                GameObject.Find("sceneControl").GetComponent<mainController>().setTracking(false, "Museum");
+                break;
+            default:
+                break;
+        }
+
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);
