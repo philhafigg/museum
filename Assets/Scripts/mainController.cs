@@ -2,48 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
+using System.Collections;
+using UnityEngine.SceneManagement;
+using SimpleJSON;
 
 
-public class mainController : MonoBehaviour {
+public class mainController : MonoBehaviour
+{
 
     public bool trackFound = false;
-    public string target;
+    public string target, jsonFile;
     private GameObject targetObject = null;
     public GameObject GUI;
-
+    public JSONNode jsonNode;
     private GameObject selectedObj;
+    private string gameDataProjectFilePath = "/StreamingAssets/data.json";
+    private void Start()
+    {
+        loadGameData();
+    }
 
     //gets called by vuforia
-    public void setTracking(bool track, string target) {
+    public void setTracking(bool track, string target)
+    {
 
         trackFound = track;
 
-        if (trackFound) {
+        if (trackFound)
+        {
 
             this.target = target;
 
-            if (targetObject) {
+            if (targetObject)
+            {
 
                 targetObject.SetActive(false);
             }
 
             GUI.GetComponent<GuiControll>().activateSection(target);
 
-            if (GameObject.Find("ImageTarget_" + target) && GameObject.Find("ImageTarget_" + target).transform.Find("TargetActivation")) {
+            if (GameObject.Find("ImageTarget_" + target) && GameObject.Find("ImageTarget_" + target).transform.Find("TargetActivation"))
+            {
 
                 targetObject = GameObject.Find("ImageTarget_" + target).transform.Find("TargetActivation").gameObject;
                 targetObject.SetActive(true);
             }
-        } else {
+        } else
+        {
 
             GUI.GetComponent<GuiControll>().deactivateSection(target);
         }
     }
     //activate Clicked Element - subitems gui
-    public void activateElement(string eleStr) {
+    public void activateElement(string eleStr)
+    {
 
-        if (selectedObj) {
-
+        if (selectedObj)
+        {
             selectedObj.SetActive(false);
         }
 
@@ -55,95 +71,21 @@ public class mainController : MonoBehaviour {
         selectedObj.SetActive(true);
     }
 
-    void setActive() {
+    void loadGameData()
+    {
+        string filePath = Application.dataPath + gameDataProjectFilePath;
 
-
-    }
-
-    void setInActive() {
-
-
-    }
-
-    public void lockModel() {
-
-        //GameObject imageTarget = GameObject.Find("ImageTarget");
-
-        //imageTarget.GetComponent<ImageTargetBehaviour>();
-        //imageTarget.
-
-
-        //1
-        /*
-        GameObject imageTarget = GameObject.Find("ImageTarget");
-        Transform[] ts = imageTarget.GetComponentsInChildren<Transform>();
-
-        if (imageTarget == null || ts == null)
+        if (File.Exists(filePath))
         {
 
-            return;
+            string dataAsJson = File.ReadAllText(filePath);
+            jsonNode = JSON.Parse(dataAsJson);
         }
-
-        foreach (Transform t in ts)
-        {
-            if (t != null)
-            {
-
-                if (t.parent == imageTarget.transform)
-                {
-
-                    t.parent = null;
-                }
-            }
-        }
-
-      
-
-        foreach (Transform t in ts)
-        {
-
-            MeshRenderer tMr = t.gameObject.GetComponent<MeshRenderer>();
-            tMr.enabled = true;
-        }
-
-
-        /*
-         * 2
-        GameObject imageTarget = GameObject.Find("ImageTarget");
-        GameObject arCam = GameObject.Find("ARCamera");
-        Transform[] ts = imageTarget.GetComponentsInChildren<Transform>();
-
-        if (imageTarget == null || ts == null || arCam == null) {
-
-            return;
-        }
-
-        foreach (Transform t in ts) {
-            if (t != null) {
-
-                if (t.parent == imageTarget.transform)
-                {
-
-                    t.SetParent(arCam.transform);
-                }
-            }
-        }
-
-        MeshRenderer[] mr = arCam.GetComponentsInChildren<MeshRenderer>();
-
-        foreach (MeshRenderer tMr in mr)
-        {
-
-            tMr.enabled = true;
-        }
-*/
-        //CameraDevice.Instance.Stop();
-        //ObjectTracker imgTracker = TrackerManager.Instance.GetTracker<ObjectTracker>();
-        //imgTracker.Stop();
     }
 
-    public void unLockModel() {
+    public string getText(string id) {
 
-
+        return jsonNode[id];
     }
+
 }

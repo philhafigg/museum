@@ -15,6 +15,7 @@ public class GuiControll : MonoBehaviour
     public GameObject mainController;
     public GameObject GuiOverlay;
     public GameObject Loading;
+    public GameObject sub;
 
     // Use this for initialization
     void Start()
@@ -62,7 +63,7 @@ public class GuiControll : MonoBehaviour
         }
        
         activeButton = button;
-        activateElement();
+        //activateElement();
     }
 
     void activateElement()
@@ -92,8 +93,13 @@ public class GuiControll : MonoBehaviour
         }
     }
 
+    public void selectOverlay(GameObject element) {
+
+        sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText(element.transform.name);
+    }
+
     public void deactivateSection(string target){
-        Debug.Log("deactivateSection");
+
         if (activeSection && activeSection.transform.name == target)
         {
            
@@ -106,8 +112,15 @@ public class GuiControll : MonoBehaviour
     public void resetSection() {
         //activeSection.transform.FindDeepChild("ButtonChildren").gameObject.GetComponent<Animator>().SetTrigger("closeChildAnimation");
         //activeSection.transform.FindDeepChild("ButtonChildren").gameObject.GetComponent<ResetChildAnimationMovement>().softReset();
-        Debug.Log("resetSection");
+
         activeSection.SetActive(false);
         activeSection = null;
     }
+
+    public void showInfo()
+    {
+
+        sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText("info");
+    }
+
 }

@@ -10,27 +10,38 @@ public class blendInOut : MonoBehaviour {
     float _timeStartedLerping;
     bool isLerp = false;
     public Component[] renderers;
-    bool actBlend = true;
     public float destAlpha = 0.0f;
     private float endAlpha, startAlpha;
     public bool isUI = false;
     public bool isMesh = false;
-
+    public bool actBlend { get; set; }
 
     // Use this for initialization
     void Start () {
 
+        actBlend = false;
+
         if (isUI) {
 
             renderers = gameObject.GetComponentsInChildren<Image>();
+            foreach (Image renderer in renderers)
+            {
+                tColor = renderer.color;
+                tColor.a = 0;
+                renderer.color = tColor;
+            }
         } 
 
         if (isMesh) {
 
             renderers = gameObject.GetComponentsInChildren<Renderer>();
+            foreach (Image renderer in renderers)
+            {
+                tColor = renderer.material.color;
+                tColor.a = 0;
+                renderer.material.color = tColor;
+            }
         }
-
-        startAlpha = tColor.a;  
     }
 	
 	// Update is called once per frame
