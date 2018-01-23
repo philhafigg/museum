@@ -43,27 +43,20 @@ public class GuiControll : MonoBehaviour
 
         foreach (GameObject button in buttonList)
         {
-
+            Debug.Log(button.transform.name);
             button.GetComponent<Button>().onClick.AddListener(() => GameObject.Find("GUI").GetComponent<GuiControll>().buttonPushed(button));
         }
     }
 
     void buttonPushed(GameObject button)
     {
+        if (button.GetComponent<guiTouchedBehaviour>().selected) {
 
-        if (activeButton)
-        {
+            button.GetComponent<guiTouchedBehaviour>().Deactivate();
+        } else {
 
-            activeButton.GetComponent<guiTouchedAnimation>().selected = false;
+            button.GetComponent<guiTouchedBehaviour>().Activate();
         }
-
-        if (button.GetComponent<guiTouchedAnimation>() != null)  {
-
-            button.GetComponent<guiTouchedAnimation>().selected = true;
-        }
-       
-        activeButton = button;
-        //activateElement();
     }
 
     void activateElement()
@@ -121,6 +114,23 @@ public class GuiControll : MonoBehaviour
     {
 
         sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText("info");
+        showSubs(true);
+    }
+
+    public void showSubs(bool open) {
+
+
+        if (open) {
+
+            sub.SetActive(true);
+            if (sub.GetComponent<Text>().text == "") {
+
+                showInfo();
+            }
+        } else {
+
+            sub.SetActive(false);
+        }
     }
 
 }
