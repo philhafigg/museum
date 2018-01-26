@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
-using System.Collections;
 using UnityEngine.SceneManagement;
 using SimpleJSON;
 
@@ -13,14 +12,17 @@ public class mainController : MonoBehaviour
 
     public bool trackFound = false;
     public string target, jsonFile;
+    public string lang;
     private GameObject targetObject = null;
     public GameObject GUI;
     public JSONNode jsonNode;
     private GameObject selectedObj;
-    private string gameDataProjectFilePath = "/StreamingAssets/data.json";
+    private string gameDataProjectFilePath = "/StreamingAssets/data";
     private void Start()
     {
+        getLanguage();
         loadGameData();
+
     }
 
     //gets called by vuforia
@@ -54,6 +56,7 @@ public class mainController : MonoBehaviour
             GUI.GetComponent<GuiControll>().deactivateSection(target);
         }
     }
+
     //activate Clicked Element - subitems gui
     public void activateElement(string eleStr)
     {
@@ -71,9 +74,20 @@ public class mainController : MonoBehaviour
         selectedObj.SetActive(true);
     }
 
+    void getLanguage() {
+
+        if (Application.systemLanguage == SystemLanguage.German) {
+            
+            lang = "deu";
+        } else {
+
+            lang = "eng";
+        }
+    }
+
     void loadGameData()
     {
-        string filePath = Application.dataPath + gameDataProjectFilePath;
+        string filePath = Application.dataPath + gameDataProjectFilePath + "_" + lang + ".json";
 
         if (File.Exists(filePath))
         {
@@ -87,5 +101,4 @@ public class mainController : MonoBehaviour
 
         return jsonNode[id];
     }
-
 }

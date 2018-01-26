@@ -21,6 +21,7 @@ public class guiTouchedBehaviour : MonoBehaviour
         sprite//no lerp
     };
 
+    public string ButtonDescription = "My Job is...";
     public TransitionOption transitionOption;
     public Sprite endSprite;
     public GameObject fadeObj;

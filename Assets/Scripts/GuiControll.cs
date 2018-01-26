@@ -16,6 +16,7 @@ public class GuiControll : MonoBehaviour
     public GameObject GuiOverlay;
     public GameObject Loading;
     public GameObject sub;
+    public GameObject audio;
 
     // Use this for initialization
     void Start()
@@ -89,6 +90,8 @@ public class GuiControll : MonoBehaviour
     public void selectOverlay(GameObject element) {
 
         sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText(element.transform.name);
+        sub.GetComponent<subControl>().activateSubs();
+        audio.GetComponent<soundControl>().playSound(element.transform.name);
     }
 
     public void deactivateSection(string target){
