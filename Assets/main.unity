@@ -3552,6 +3552,8 @@ MonoBehaviour:
   activationObj: {fileID: 23989392}
   deactivationObj:
   - {fileID: 1082779505}
+  blendInOutMesh: 0
+  selected: 0
 --- !u!114 &966084994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6312,6 +6314,7 @@ MonoBehaviour:
   GuiOverlay: {fileID: 1060638934}
   Loading: {fileID: 158773548}
   sub: {fileID: 1866955244}
+  audio: {fileID: 2110623074}
 --- !u!114 &1977573259
 MonoBehaviour:
   m_ObjectHideFlags: 0
