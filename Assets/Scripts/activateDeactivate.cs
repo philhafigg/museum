@@ -8,9 +8,6 @@ public class activateDeactivate : MonoBehaviour {
     [Tooltip("Gets activated or deactivated. If it has blendinout it blends")]
     public GameObject activationObj;
     public GameObject[] deactivationObj;
-    private bool blendInOutMesh = false;
-
-    private bool selected = false;
 
 	void Start () {
 
@@ -19,27 +16,30 @@ public class activateDeactivate : MonoBehaviour {
 
     void selection()
     {
-
+        //es ist nicht eingeblendet
         if (activationObj.GetComponent<blendInOut>() && !activationObj.GetComponent<blendInOut>().actBlend)
         {
 
             activationObj.GetComponent<blendInOut>().blend(true);
-            deactivateObjects();
+            //deactivateObjects();
         }
+        //eingeblendet
         else if (activationObj.GetComponent<blendInOut>() && activationObj.GetComponent<blendInOut>().actBlend)
         {
 
             activationObj.GetComponent<blendInOut>().blend(false);
         }
+        //for !active
         else if (activationObj.activeSelf)
         {
 
             activationObj.SetActive(false);
+
         }
+        //for active
         else {
 
             activationObj.SetActive(true);
-            deactivateObjects();
         }
     }
 

@@ -6,16 +6,13 @@ public class subControl : MonoBehaviour {
 
 	// Use this for initialization
 
-    public float scrollSpeed = 1.0f;
-    public bool open{
-
-        set;
-        get;
-    }
+    public float scrollSpeed;
+    public bool open;
     Vector3 startPos, endPos;
-
     private bool isLerp = false;
     private float _timeStartedLerping;
+    private float calcSpeed;
+
 	void Start () {
 
         open = false;
@@ -28,7 +25,7 @@ public class subControl : MonoBehaviour {
         {
 
             float timeSinceStarted = Time.time - _timeStartedLerping;
-            float percentageComplete = timeSinceStarted / scrollSpeed;
+            float percentageComplete = timeSinceStarted / calcSpeed;
 
             gameObject.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(startPos, endPos, percentageComplete);
 
@@ -37,34 +34,36 @@ public class subControl : MonoBehaviour {
                 isLerp = false;
             }
         }
-
-       
     }
 	
     public void displaySubs() {
 
-        open = open ? false : true;
-
         if (open) {
 
-            //TODO Open Subs
+            //TODO Close Subs
         } else {
 
-            //TODO Close Subs
+            //TODO Open Subs
+            activateSubs();
         }
-    }
 
+        open = open ? false : true;
+    }
+    
     public void activateSubs() {
 
         if (open) {
 
 
         } else {
-            
+
             resetSubs();
             startPos = new Vector3(0, 0, 0);
-            endPos = new Vector3(-1 * gameObject.GetComponent<RectTransform>().sizeDelta.x, 0, 0);
+            //normalize speed
+            calcSpeed = gameObject.GetComponent<RectTransform>().sizeDelta.x / scrollSpeed;
 
+            endPos = new Vector3(-1 * gameObject.GetComponent<RectTransform>().sizeDelta.x, 0, 0);
+            Debug.Log(gameObject.GetComponent<RectTransform>().sizeDelta.x);
             _timeStartedLerping = Time.time;
             isLerp = true;
         }

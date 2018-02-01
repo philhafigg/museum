@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class blendInOut : MonoBehaviour {
 
-    Color tColor, startColor, endColor;
+
     public float slow = 0.7f; 
-    float _timeStartedLerping;
-    bool isLerp = false;
-    public Component[] renderers;
-    public float destAlpha = 0.0f;
-    private float endAlpha, startAlpha;
     public bool isUI = false;
     public bool isMesh = false;
-    public bool actBlend { get; set; }
+    public bool actBlend;
+    public Component[] renderers;
+    public float destAlpha = 0.0f;
+
+    private float endAlpha, startAlpha;
+    private Color tColor, startColor, endColor;
+    private bool isLerp = false;
+    private float _timeStartedLerping;
 
     // Use this for initialization
     void Start () {

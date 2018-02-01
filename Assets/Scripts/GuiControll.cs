@@ -16,13 +16,17 @@ public class GuiControll : MonoBehaviour
     public GameObject GuiOverlay;
     public GameObject Loading;
     public GameObject sub;
-    public GameObject audio;
+    public GameObject Audio;
+
+    public GameObject[] activeOnStartUp;
 
     // Use this for initialization
     void Start()
     {
         getAllButtons();
         getAllSections();
+
+        activateActiveOnStartUp();
     }
 
     void getAllSections()
@@ -47,6 +51,11 @@ public class GuiControll : MonoBehaviour
             Debug.Log(button.transform.name);
             button.GetComponent<Button>().onClick.AddListener(() => GameObject.Find("GUI").GetComponent<GuiControll>().buttonPushed(button));
         }
+    }
+    //executes Buttons on Startup
+    void activateActiveOnStartUp() {
+
+
     }
 
     void buttonPushed(GameObject button)
@@ -88,10 +97,16 @@ public class GuiControll : MonoBehaviour
     }
 
     public void selectOverlay(GameObject element) {
-
+       
         sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText(element.transform.name);
+        StartCoroutine(acitvateSubs(element));
+    }
+
+    IEnumerator acitvateSubs(GameObject element) {
+
+        yield return new WaitForEndOfFrame();
         sub.GetComponent<subControl>().activateSubs();
-        audio.GetComponent<soundControl>().playSound(element.transform.name);
+        Audio.GetComponent<soundControl>().playSound(element.transform.name);
     }
 
     public void deactivateSection(string target){

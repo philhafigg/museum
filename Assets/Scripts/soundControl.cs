@@ -17,14 +17,14 @@ public class soundControl : MonoBehaviour {
 
     public void mute()
     {
-
         gameObject.GetComponent<AudioSource>().mute = muted ? false : true;
         muted = muted ? false : true;
     }
 
     public void playSound(string tSound) {
-
-        AudioClip clip1 = (AudioClip)Resources.Load("Sounds/" + tSound + ".wav");
+        
+        AudioClip clip1 = (AudioClip)Resources.Load("Sounds/" + tSound + "_" + lang ) as AudioClip;
+        gameObject.GetComponent<AudioSource>().clip = clip1;
         gameObject.GetComponent<AudioSource>().PlayOneShot(clip1);
     }
 

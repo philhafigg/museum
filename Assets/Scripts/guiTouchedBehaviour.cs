@@ -34,8 +34,6 @@ public class guiTouchedBehaviour : MonoBehaviour
     private float _timeStartedLerping;
     private Color endColor;
     private Color startColor;
-    private float actTime = 0;
-
 
     void Start()
     {
@@ -65,7 +63,6 @@ public class guiTouchedBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (isLerp)
         {
 
@@ -88,9 +85,7 @@ public class guiTouchedBehaviour : MonoBehaviour
 
     public void Activate()
     {
-
-
-
+        
         switch (transitionOption) {
 
             case TransitionOption.sprite: 
