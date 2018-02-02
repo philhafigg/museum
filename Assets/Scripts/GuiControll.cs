@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Text.RegularExpressions;
 using System;
 
 public class GuiControll : MonoBehaviour
 {
 
+    private overlayBehaviour[] overlayList;
     private GameObject[] buttonList;
     public GameObject activeButton;
     public GameObject activeSection;
@@ -21,6 +23,13 @@ public class GuiControll : MonoBehaviour
     public GameObject[] activeOnStartUp;
 
     // Use this for initialization
+
+    private void Awake()
+    {
+        //museum
+        getAllOverlays();
+    }
+
     void Start()
     {
         getAllButtons();
@@ -52,6 +61,13 @@ public class GuiControll : MonoBehaviour
             button.GetComponent<Button>().onClick.AddListener(() => GameObject.Find("GUI").GetComponent<GuiControll>().buttonPushed(button));
         }
     }
+
+    void getAllOverlays()
+    {
+
+        overlayList = (overlayBehaviour[]) FindObjectsOfType(typeof(overlayBehaviour));
+    }
+
     //executes Buttons on Startup
     void activateActiveOnStartUp() {
 
@@ -60,20 +76,16 @@ public class GuiControll : MonoBehaviour
 
     void buttonPushed(GameObject button)
     {
-        if (button.GetComponent<guiTouchedBehaviour>().selected) {
+        if (button.GetComponent<clickBehaviour>().selected)
+        {
 
-            button.GetComponent<guiTouchedBehaviour>().Deactivate();
-        } else {
-
-            button.GetComponent<guiTouchedBehaviour>().Activate();
+            button.GetComponent<clickBehaviour>().Deactivate();
         }
-    }
+        else
+        {
 
-    void activateElement()
-    {
-
-        string[] substrings = activeButton.name.Split(new string[] { "Button_" }, StringSplitOptions.None);
-        mainController.GetComponent<mainController>().activateElement(substrings[1]);
+            button.GetComponent<clickBehaviour>().Activate();
+        }
     }
 
     public void activateSection(String section) {
@@ -97,16 +109,37 @@ public class GuiControll : MonoBehaviour
     }
 
     public void selectOverlay(GameObject element) {
-       
+        
+        foreach (overlayBehaviour overlay in overlayList)
+        {
+            Debug.Log(overlay.gameObject.transform.parent.transform.name);
+
+            if (overlay.gameObject != element.gameObject && overlay.GetComponent<clickBehaviour>().selected == true) {
+
+                overlay.Deactivate();
+            }
+        }
+      
         sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText(element.transform.name);
-        StartCoroutine(acitvateSubs(element));
+        StartCoroutine(acitvateSubs(element.transform.name));
     }
 
-    IEnumerator acitvateSubs(GameObject element) {
+    public void showInfo()
+    {
+        foreach(overlayBehaviour overlay in overlayList) {
+
+            overlay.Deactivate();
+        }
+
+        sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText("info");
+        StartCoroutine(acitvateSubs("info"));
+    }
+
+    IEnumerator acitvateSubs(String subName) {
 
         yield return new WaitForEndOfFrame();
         sub.GetComponent<subControl>().activateSubs();
-        Audio.GetComponent<soundControl>().playSound(element.transform.name);
+        Audio.GetComponent<soundControl>().playSound(subName);
     }
 
     public void deactivateSection(string target){
@@ -116,28 +149,17 @@ public class GuiControll : MonoBehaviour
            
             Loading.SetActive(true);
             GuiOverlay.transform.FindDeepChild(activeSection.transform.name).gameObject.SetActive(false);
-            //activeSection.transform.FindDeepChild("ButtonChildren").gameObject.GetComponent<Animator>().SetTrigger("closeChildAnimation");
         }
     }
 
     public void resetSection() {
-        //activeSection.transform.FindDeepChild("ButtonChildren").gameObject.GetComponent<Animator>().SetTrigger("closeChildAnimation");
-        //activeSection.transform.FindDeepChild("ButtonChildren").gameObject.GetComponent<ResetChildAnimationMovement>().softReset();
 
         activeSection.SetActive(false);
         activeSection = null;
     }
 
-    public void showInfo()
-    {
-
-        sub.GetComponent<Text>().text = mainController.GetComponent<mainController>().getText("info");
-        showSubs(true);
-    }
-
     public void showSubs(bool open) {
-
-
+        
         if (open) {
 
             sub.SetActive(true);

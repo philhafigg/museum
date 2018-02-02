@@ -21,7 +21,7 @@ public class activateDeactivate : MonoBehaviour {
         {
 
             activationObj.GetComponent<blendInOut>().blend(true);
-            //deactivateObjects();
+            deactivateObjects();
         }
         //eingeblendet
         else if (activationObj.GetComponent<blendInOut>() && activationObj.GetComponent<blendInOut>().actBlend)
@@ -40,6 +40,7 @@ public class activateDeactivate : MonoBehaviour {
         else {
 
             activationObj.SetActive(true);
+            deactivateObjects();
         }
     }
 

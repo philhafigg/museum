@@ -18,11 +18,11 @@ public class mainController : MonoBehaviour
     public JSONNode jsonNode;
     private GameObject selectedObj;
     private string gameDataProjectFilePath = "/StreamingAssets/data";
-    private void Start()
+
+    void Start()
     {
         getLanguage();
         loadGameData();
-
     }
 
     //gets called by vuforia

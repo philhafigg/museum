@@ -32,6 +32,7 @@ public class subControl : MonoBehaviour {
             if (percentageComplete >= 1.0f)
             {
                 isLerp = false;
+                resetSubs(2);
             }
         }
     }
@@ -57,7 +58,7 @@ public class subControl : MonoBehaviour {
 
         } else {
 
-            resetSubs();
+            resetSubs(0);
             startPos = new Vector3(0, 0, 0);
             //normalize speed
             calcSpeed = gameObject.GetComponent<RectTransform>().sizeDelta.x / scrollSpeed;
@@ -69,8 +70,14 @@ public class subControl : MonoBehaviour {
         }
     }
 
-    public void resetSubs() {
+    public void resetSubs(int seconds) {
 
+        StartCoroutine(WaitTillReset(seconds));
+    }
+
+    IEnumerator WaitTillReset(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
         gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
     }
 }
