@@ -67,11 +67,6 @@ public class clickBehaviour : MonoBehaviour
         }
     }
 
-    public void ActiveOnStartup() {
-        
-        Activate();
-    }
-
     void FixedUpdate()
     {
         if (isLerp)

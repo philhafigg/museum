@@ -34,7 +34,6 @@ public class activateDeactivate : MonoBehaviour {
         {
 
             activationObj.SetActive(false);
-
         }
         //for active
         else {

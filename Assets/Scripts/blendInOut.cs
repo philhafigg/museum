@@ -10,7 +10,7 @@ public class blendInOut : MonoBehaviour {
     public bool isUI = false;
     public bool isMesh = false;
     public bool actBlend;
-    public Component[] renderers;
+    public Component[] imageRenderers, meshRenderers;
     public float destAlpha = 0.0f;
 
     private float endAlpha, startAlpha;
@@ -21,27 +21,33 @@ public class blendInOut : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        actBlend = false;
-
         if (isUI) {
 
-            renderers = gameObject.GetComponentsInChildren<Image>();
-            foreach (Image renderer in renderers)
-            {
-                tColor = renderer.color;
-                tColor.a = 0;
-                renderer.color = tColor;
+            imageRenderers = gameObject.GetComponentsInChildren<Image>();
+
+            if (!actBlend) {
+
+                foreach (Image renderer in imageRenderers)
+                {
+                    tColor = renderer.color;
+                    tColor.a = 0;
+                    renderer.color = tColor;
+                }
             }
         } 
 
         if (isMesh) {
 
-            renderers = gameObject.GetComponentsInChildren<Renderer>();
-            foreach (Image renderer in renderers)
+            meshRenderers = gameObject.GetComponentsInChildren<Renderer>();
+            if (!actBlend)
             {
-                tColor = renderer.material.color;
-                tColor.a = 0;
-                renderer.material.color = tColor;
+
+                foreach (Image renderer in meshRenderers)
+                {
+                    tColor = renderer.material.color;
+                    tColor.a = 0;
+                    renderer.material.color = tColor;
+                }
             }
         }
     }
@@ -58,7 +64,7 @@ public class blendInOut : MonoBehaviour {
             if (isUI)
             {
 
-                foreach (Image renderer in renderers)
+                foreach (Image renderer in imageRenderers)
                 {
                     tColor = renderer.color;
 
@@ -72,7 +78,7 @@ public class blendInOut : MonoBehaviour {
             if (isMesh)
             {
 
-                foreach (Renderer renderer in renderers)
+                foreach (Renderer renderer in meshRenderers)
                 {
                     tColor = renderer.material.color;
 

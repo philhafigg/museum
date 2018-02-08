@@ -100,7 +100,7 @@ public class GuiControll : MonoBehaviour
             return;
         } else {
 
-            Loading.SetActive(false);
+            Loading.GetComponent<blendInOut>().blend(false); 
 
             activeSection = gameObject.transform.FindDeepChild(section).gameObject;
             activeSection.SetActive(true);
@@ -146,9 +146,9 @@ public class GuiControll : MonoBehaviour
 
         if (activeSection && activeSection.transform.name == target)
         {
-           
-            Loading.SetActive(true);
+            Loading.GetComponent<blendInOut>().blend(true); 
             GuiOverlay.transform.FindDeepChild(activeSection.transform.name).gameObject.SetActive(false);
+            activeSection = null;
         }
     }
 
